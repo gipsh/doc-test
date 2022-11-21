@@ -1,0 +1,588 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Governance API",
+        "title": "Governance API",
+        "contact": {
+            "name": "Randlabs",
+            "url": "https://algoexplorer.io/contact"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api/governance/v1",
+    "paths": {
+        "/governor/{address}/budget": {
+            "get": {
+                "description": "Get governor available amount for transfer, if not a valid governor for active governance period or is ineligible returns 0",
+                "tags": [
+                    "Governor"
+                ],
+                "operationId": "governors-budget",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "governor address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.governorBudgetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/governor/{address}/history": {
+            "get": {
+                "description": "Get governor history",
+                "tags": [
+                    "Governor"
+                ],
+                "operationId": "governor-history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.governorsHistoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Check if service is up and healthy",
+                "tags": [
+                    "Health"
+                ],
+                "operationId": "health",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/period/{period}/governor": {
+            "get": {
+                "description": "Get governors list",
+                "tags": [
+                    "Governor"
+                ],
+                "operationId": "governors-list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "period slug",
+                        "name": "period",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "governor is eligible",
+                        "name": "eligible",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "results per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "address",
+                            "committed_amount",
+                            "registration_tx",
+                            "registration_date",
+                            "registration_tx_round",
+                            "ineligible_tx_round",
+                            "ineligible_tx_date",
+                            ""
+                        ],
+                        "type": "string",
+                        "description": "sort field",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "description": "sort order",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.governorsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/period/{period}/governor/{address}/activities": {
+            "get": {
+                "description": "Get governor activities",
+                "tags": [
+                    "Governor"
+                ],
+                "operationId": "governors-activities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "period slug",
+                        "name": "period",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "results per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "transaction",
+                            "transaction_round",
+                            "transaction_date",
+                            "balance",
+                            "committed_amount",
+                            "tx_type"
+                        ],
+                        "type": "string",
+                        "description": "sort field",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "description": "sort order",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.governorsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/period/{period}/statistic": {
+            "get": {
+                "description": "Get statistics",
+                "tags": [
+                    "Statistic"
+                ],
+                "operationId": "statistic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "period number",
+                        "name": "period",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "voting session slug",
+                        "name": "voting_session",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "min date range filter(YYYY-MM-DD)",
+                        "name": "from_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "max date range filter(YYYY-MM-DD)",
+                        "name": "to_date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.statisticResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/vote": {
+            "get": {
+                "description": "Get governors list",
+                "tags": [
+                    "Vote"
+                ],
+                "operationId": "votes-list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "governor address",
+                        "name": "address",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "transaction round",
+                        "name": "transaction_round",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "governance period",
+                        "name": "period",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "voting session slug",
+                        "name": "voting_session",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "voting session topic",
+                        "name": "topic_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "voting session topic option",
+                        "name": "option_code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "min date range filter(YYYY-MM-DD)",
+                        "name": "from_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "max date range filter(YYYY-MM-DD)",
+                        "name": "to_date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "display all votes",
+                        "name": "full_list",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "results per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "transaction",
+                            "vote_date",
+                            "voting_session",
+                            "address",
+                            "topic_code",
+                            "option_code"
+                        ],
+                        "type": "string",
+                        "description": "sort field",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "description": "sort order",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoint.votesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Governor": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "committed_amount": {
+                    "type": "integer"
+                },
+                "eligible": {
+                    "type": "boolean"
+                },
+                "ineligible_tx": {
+                    "type": "string"
+                },
+                "ineligible_tx_date": {
+                    "type": "string"
+                },
+                "ineligible_tx_round": {
+                    "type": "integer"
+                },
+                "period": {
+                    "type": "string"
+                },
+                "registration_date": {
+                    "type": "string"
+                },
+                "registration_tx": {
+                    "type": "string"
+                },
+                "registration_tx_round": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.Vote": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "committed_amount": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "last": {
+                    "type": "boolean"
+                },
+                "option_code": {
+                    "type": "string"
+                },
+                "option_indicator": {
+                    "type": "string"
+                },
+                "option_title": {
+                    "type": "string"
+                },
+                "topic_code": {
+                    "type": "integer"
+                },
+                "topic_title": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                },
+                "transaction_round": {
+                    "type": "integer"
+                },
+                "voted_amount": {
+                    "type": "integer"
+                },
+                "voting_session": {
+                    "type": "string"
+                }
+            }
+        },
+        "endpoint.governorBudgetResponse": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "type": "integer"
+                }
+            }
+        },
+        "endpoint.governorsHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Governor"
+                    }
+                }
+            }
+        },
+        "endpoint.governorsResponse": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Governor"
+                    }
+                },
+                "results_per_page": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "endpoint.statisticResponse": {
+            "type": "object",
+            "properties": {
+                "committed_amount": {
+                    "type": "integer"
+                },
+                "eligible_governors": {
+                    "type": "integer"
+                },
+                "in_eligible_governors": {
+                    "type": "integer"
+                },
+                "not_voted": {
+                    "type": "integer"
+                },
+                "total_governors": {
+                    "type": "integer"
+                },
+                "voted_amount": {
+                    "type": "integer"
+                },
+                "votes": {
+                    "type": "integer"
+                }
+            }
+        },
+        "endpoint.votesResponse": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Vote"
+                    }
+                },
+                "results_per_page": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
